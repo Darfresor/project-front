@@ -11,7 +11,7 @@
 <h2>Accounts list:</h2>
 Count per page:
 <select id="count_per_page" onchange="update_table()">
-    <option value="5">5</option>
+    <option value="3">3</option>
     <option value="10">10</option>
     <option value="15">15</option>
     <option value="20">20</option>
@@ -31,8 +31,7 @@ Count per page:
     </tbody>
 </table>
 Pages:
-<div id="buttons">
-</div>
+<div id="buttons"></div>
 <script>
     function update_table() {
         let url = '/rest/players';
@@ -71,12 +70,15 @@ Pages:
         const selectPageNum =$("#count_per_page").val();
         let numOfPage = getTotalPlayers();
         let numOfButton = Math.ceil(numOfPage / selectPageNum);
-        let buttonTxt = "";
-        for (let i = 1; i <= numOfButton; i++) {
-            buttonTxt = buttonTxt + '<button>' + i + '</button>';
+        for (let i = 0; i < numOfButton; i++) {
+            let buttonTxt ='<button>' + (i+1) + '</button>';
+            let btn = $(buttonTxt)
+                .attr('id',"pagin_button_"+i)
+                .attr('onclick',"update_table()")
+                .addClass('page-btn-style')
+            $('#buttons').append(btn);
         }
-        ;
-        $('div').html(buttonTxt).appendTo("#buttons");
+
     }
 </script>
 
