@@ -34,6 +34,7 @@ Pages:
 <div id="buttons"></div>
 <script>
     function update_table() {
+        $("tr:has(td)").remove();
         let url = '/rest/players';
         $.get(url, function (response) {
             $.each(response, function (i, item) {
@@ -70,6 +71,7 @@ Pages:
         const selectPageNum =$("#count_per_page").val();
         let numOfPage = getTotalPlayers();
         let numOfButton = Math.ceil(numOfPage / selectPageNum);
+        $("button.page-btn-style").remove();
         for (let i = 0; i < numOfButton; i++) {
             let buttonTxt ='<button>' + (i+1) + '</button>';
             let btn = $(buttonTxt)
