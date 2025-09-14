@@ -1,0 +1,12 @@
+.table-base{
+    border: 2px solid black;
+    border-collapse: collapse; /* Если .base - это таблица */
+}
+.table-head th{
+    border: 2px solid black;
+    border-collapse: collapse; /* Если .base - это таблица */
+}
+.table-body tr, td{
+    border: 2px solid black;
+    border-collapse: collapse; /* Если .base - это таблица */
+}

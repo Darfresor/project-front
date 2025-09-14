@@ -1,11 +1,91 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
 <head>
     <title>RPG</title>
     <script src=https://code.jquery.com/jquery-3.6.0.min.js></script>
     <link href="/css/my.css" rel="stylesheet">
+    <meta charset="UTF-8">
 </head>
-<body>
+<body onload="update_table()">
 <h1>RPG admin panel</h1>
+<h2>Accounts list:</h2>
+Count per page:
+<select onclick="setAllPlayerInBase()">
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="15">15</option>
+    <option value="20">20</option>
+</select>
+<table id="player-table" class="table-base">
+    <thead class="table-head">
+    <th>#</th>
+    <th>Name</th>
+    <th>Title</th>
+    <th>Race</th>
+    <th>Profession</th>
+    <th>Level</th>
+    <th>Birthday</th>
+    <th>Banned</th>
+    </thead>
+    <tbody class="table-body">
+    </tbody>
+</table>
+Pages:
+<div id="buttons">
+</div>
+<script>
+    function update_table() {
+        let url = '/rest/players';
+        $.get(url, function (response) {
+            $.each(response, function (i, item) {
+                $('<tr>').html('<td>'
+                    + item.id + '</td><td>'
+                    + item.name + '</td><td>'
+                    + item.title + '</td><td>'
+                    + item.race + '</td><td>'
+                    + item.profession + '</td><td>'
+                    + item.level + '</td><td>'
+                    + new Date(item.birthday).toLocaleDateString() + '</td><td>'
+                    + item.banned + '</td>'
+                ).appendTo('#player-table')
+            })
+        });
+        setAllPlayerInBase();
+    }
+
+    function getTotalPlayers() {
+        let url = '/rest/players/count';
+        let res = 0;
+        $.ajax({
+                url: url,
+                async: false,
+                success: function (response) {
+                    res = parseInt(response);
+                }
+            }
+        );
+        return res;
+    }
+
+    function setAllPlayerInBase() {
+        const selectPageNum = document.querySelector('select').value;
+        let numOfPage = getTotalPlayers();
+        let numOfButton = Math.ceil(numOfPage / selectPageNum);
+        let buttonTxt = "";
+        for (let i = 1; i <= numOfButton; i++) {
+            buttonTxt = buttonTxt + '<button>' + i + '</button>';
+        }
+        ;
+        $('div').html(buttonTxt).appendTo("#buttons");
+    }
+</script>
 
 </body>
 </html>
+
+
+
+
+
+
+
