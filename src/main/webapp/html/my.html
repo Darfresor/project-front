@@ -6,11 +6,11 @@
     <link href="/css/my.css" rel="stylesheet">
     <meta charset="UTF-8">
 </head>
-<body onload="update_table()">
+<body onload="update_table(0)">
 <h1>RPG admin panel</h1>
 <h2>Accounts list:</h2>
 Count per page:
-<select id="count_per_page" onchange="update_table()">
+<select id="count_per_page" onchange="update_table(0)">
     <option value="3">3</option>
     <option value="10">10</option>
     <option value="15">15</option>
@@ -33,9 +33,14 @@ Count per page:
 Pages:
 <div id="buttons"></div>
 <script>
-    function update_table() {
+    function update_table(pageNumber) {
         $("tr:has(td)").remove();
-        let url = '/rest/players';
+        let url = '/rest/players?';
+        let selectPageNum = $("#count_per_page").val();
+        url = url.concat("pageSize=").concat(selectPageNum)
+            .concat("&pageNumber=").concat(pageNumber);
+
+
         $.get(url, function (response) {
             $.each(response, function (i, item) {
                 $('<tr>').html('<td>'
@@ -68,15 +73,15 @@ Pages:
     }
 
     function setAllPlayerInBase() {
-        const selectPageNum =$("#count_per_page").val();
+        let selectPageNum = $("#count_per_page").val();
         let numOfPage = getTotalPlayers();
         let numOfButton = Math.ceil(numOfPage / selectPageNum);
         $("button.page-btn-style").remove();
         for (let i = 0; i < numOfButton; i++) {
-            let buttonTxt ='<button>' + (i+1) + '</button>';
+            let buttonTxt = '<button>' + (i + 1) + '</button>';
             let btn = $(buttonTxt)
-                .attr('id',"pagin_button_"+i)
-                .attr('onclick',"update_table()")
+                .attr('id', "pagin_button_" + i)
+                .attr('onclick', "update_table(" + i + ")")
                 .addClass('page-btn-style')
             $('#buttons').append(btn);
         }
