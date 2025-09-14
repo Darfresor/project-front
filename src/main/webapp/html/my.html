@@ -10,7 +10,7 @@
 <h1>RPG admin panel</h1>
 <h2>Accounts list:</h2>
 Count per page:
-<select onclick="setAllPlayerInBase()">
+<select id="count_per_page" onchange="update_table()">
     <option value="5">5</option>
     <option value="10">10</option>
     <option value="15">15</option>
@@ -68,7 +68,7 @@ Pages:
     }
 
     function setAllPlayerInBase() {
-        const selectPageNum = document.querySelector('select').value;
+        const selectPageNum =$("#count_per_page").val();
         let numOfPage = getTotalPlayers();
         let numOfButton = Math.ceil(numOfPage / selectPageNum);
         let buttonTxt = "";
