@@ -56,6 +56,11 @@ Pages:
             })
         });
         setAllPlayerInBase();
+
+        let identifire ="#pagin_button_"+pageNumber;
+        $(identifire).addClass('button-color');
+        //$(identifire).css('color',"red");
+
     }
 
     function getTotalPlayers() {
@@ -85,7 +90,6 @@ Pages:
                 .addClass('page-btn-style')
             $('#buttons').append(btn);
         }
-
     }
 </script>
 

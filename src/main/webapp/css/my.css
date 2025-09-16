@@ -10,3 +10,6 @@
     border: 2px solid black;
     border-collapse: collapse; /* Если .base - это таблица */
 }
+.button-color{
+    color: red;
+}
