@@ -44,24 +44,25 @@ Pages:
 
 
         $.get(url, function (response) {
+            let selectPageNum = $("#count_per_page").val();
             $.each(response, function (i, item) {
-                $('<tr>').html('<td>'
-                    + item.id + '</td><td>'
-                    + item.name + '</td><td>'
-                    + item.title + '</td><td>'
-                    + item.race + '</td><td>'
-                    + item.profession + '</td><td>'
-                    + item.level + '</td><td>'
-                    + new Date(item.birthday).toLocaleDateString() + '</td><td>'
-                    + item.banned + '</td><td>'
-                    + '<img src="/img/edit.png" alt="edit" title="edit"></td><td>'
-                    + '<img src="/img/delete.png" alt="edit" title="edit"></td>'
+                $('<tr>').html("<td>"
+                    + item.id + "</td><td>"
+                    + item.name + "</td><td>"
+                    + item.title + "</td><td>"
+                    + item.race + "</td><td>"
+                    + item.profession + "</td><td>"
+                    + item.level + "</td><td>"
+                    + new Date(item.birthday).toLocaleDateString() + "</td><td>"
+                    + item.banned + "</td><td>"
+                    + "<img src='/img/edit.png' onclick='editPlayer("+item.id+","+selectPageNum+")' alt='edit' title='edit'></td><td>"
+                    + "<img src='/img/delete.png' onclick='deletePlayer("+item.id+","+selectPageNum+")' alt='delete' title='delete'></td>"
                 ).appendTo('#player-table')
             })
         });
         setAllPlayerInBase();
 
-        let identifire ="#pagin_button_"+pageNumber;
+        let identifire = "#pagin_button_" + pageNumber;
         $(identifire).addClass('button-color');
 
     }
@@ -94,6 +95,46 @@ Pages:
             $('#buttons').append(btn);
         }
     }
+
+    function editPlayer(PlayerId, pageId) {
+        /*
+        let url = '/rest/players/';
+        url = url.concat(PlayerId);
+        $.ajax({
+                type: "edit",
+                url: url,
+                success: function (response) {
+                    update_table(pageId);
+                }
+            }
+        )
+        */
+
+    }
+
+    function deletePlayer(PlayerId, pageId) {
+        let url = '/rest/players/';
+        url = url.concat(PlayerId);
+        $.ajax({
+                type: "delete",
+                url: url,
+                success: function () {
+                    update_table(getCurrentPage());
+                }
+            }
+        )
+    }
+    function getCurrentPage(){
+        let currentPage =0;
+        $('button:parent(div)').each(function(){
+           if($(this).hasClass('button-color')){
+               currentPage = $(this).text();
+               return false;
+           };
+        });
+        return currentPage-1;
+    }
+
 </script>
 
 </body>
