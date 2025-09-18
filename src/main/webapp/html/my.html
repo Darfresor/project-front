@@ -101,6 +101,13 @@ Pages:
     }
 
     function editPlayer(PlayerId, pageId) {
+        let buttonDelete ="#button_delete_"+PlayerId;
+        let imgDelete ="#button_delete_"+PlayerId+" img";
+        let imgEdit ="#button_edit_"+PlayerId+" img";
+        $(buttonDelete).remove();
+        $(imgDelete).remove();
+        $(imgEdit).attr('src',"/img/save.png");
+
         /*
         let url = '/rest/players/';
         url = url.concat(PlayerId);
@@ -136,7 +143,6 @@ Pages:
                 currentPage = $(this).text();
                 return false;
             }
-            ;
         });
         return parseInt(currentPage - 1);
     }
