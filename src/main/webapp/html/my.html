@@ -55,10 +55,10 @@ Pages:
                     + item.level + "</td><td>"
                     + new Date(item.birthday).toLocaleDateString() + "</td><td>"
                     + item.banned + "</td><td>"
-                    + "<button onclick='editPlayer(" + item.id + "," + selectPageNum + ")'>"
+                    + "<button id='button_edit_"+item.id+"' onclick='editPlayer(" + item.id + "," + selectPageNum + ")'>"
                     +"<img src='/img/edit.png' alt='edit' title='edit'>"
                     +"</button></td><td>"
-                    +"<button onclick='deletePlayer(" + item.id + "," + selectPageNum + ")'>"
+                    +"<button id='button_delete_"+item.id+"' onclick='deletePlayer(" + item.id + "," + selectPageNum + ")'>"
                     + "<img src='/img/delete.png'  alt='delete' title='delete'>"
                     + "</button></td>"
                 ).appendTo('#player-table')
