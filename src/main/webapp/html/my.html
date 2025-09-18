@@ -26,6 +26,8 @@ Count per page:
     <th>Level</th>
     <th>Birthday</th>
     <th>Banned</th>
+    <th>Edit</th>
+    <th>Delete</th>
     </thead>
     <tbody class="table-body">
     </tbody>
@@ -51,7 +53,9 @@ Pages:
                     + item.profession + '</td><td>'
                     + item.level + '</td><td>'
                     + new Date(item.birthday).toLocaleDateString() + '</td><td>'
-                    + item.banned + '</td>'
+                    + item.banned + '</td><td>'
+                    + '<img src="/img/edit.png" alt="edit" title="edit"></td><td>'
+                    + '<img src="/img/delete.png" alt="edit" title="edit"></td>'
                 ).appendTo('#player-table')
             })
         });
@@ -59,7 +63,6 @@ Pages:
 
         let identifire ="#pagin_button_"+pageNumber;
         $(identifire).addClass('button-color');
-        //$(identifire).css('color',"red");
 
     }
 
