@@ -131,7 +131,7 @@ Pages:
 
     function getCurrentPage() {
         let currentPage = 0;
-        $('button:parent(div)').each(function () {
+        $('div button').each(function () {
             if ($(this).hasClass('button-color')) {
                 currentPage = $(this).text();
                 return false;
