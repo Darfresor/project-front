@@ -55,8 +55,12 @@ Pages:
                     + item.level + "</td><td>"
                     + new Date(item.birthday).toLocaleDateString() + "</td><td>"
                     + item.banned + "</td><td>"
-                    + "<img src='/img/edit.png' onclick='editPlayer("+item.id+","+selectPageNum+")' alt='edit' title='edit'></td><td>"
-                    + "<img src='/img/delete.png' onclick='deletePlayer("+item.id+","+selectPageNum+")' alt='delete' title='delete'></td>"
+                    + "<button onclick='editPlayer(" + item.id + "," + selectPageNum + ")'>"
+                    +"<img src='/img/edit.png' alt='edit' title='edit'>"
+                    +"</button></td><td>"
+                    +"<button onclick='deletePlayer(" + item.id + "," + selectPageNum + ")'>"
+                    + "<img src='/img/delete.png'  alt='delete' title='delete'>"
+                    + "</button></td>"
                 ).appendTo('#player-table')
             })
         });
@@ -124,15 +128,17 @@ Pages:
             }
         )
     }
-    function getCurrentPage(){
-        let currentPage =0;
-        $('button:parent(div)').each(function(){
-           if($(this).hasClass('button-color')){
-               currentPage = $(this).text();
-               return false;
-           };
+
+    function getCurrentPage() {
+        let currentPage = 0;
+        $('button:parent(div)').each(function () {
+            if ($(this).hasClass('button-color')) {
+                currentPage = $(this).text();
+                return false;
+            }
+            ;
         });
-        return parseInt(currentPage-1);
+        return parseInt(currentPage - 1);
     }
 
 </script>
