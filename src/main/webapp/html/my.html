@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="ru">
+﻿<!DOCTYPE html>
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>RPG</title>
     <script src=https://code.jquery.com/jquery-3.6.0.min.js></script>
     <link href="/css/my.css" rel="stylesheet">
-    <meta charset="UTF-8">
 </head>
 <body onload="update_table(0)">
 <h1>RPG admin panel</h1>
@@ -55,10 +55,10 @@ Pages:
                     + item.level + "</td><td>"
                     + new Date(item.birthday).toLocaleDateString() + "</td><td>"
                     + item.banned + "</td><td>"
-                    + "<button id='button_edit_"+item.id+"' onclick='editPlayer(" + item.id + "," + selectPageNum + ")'>"
-                    +"<img src='/img/edit.png' alt='edit' title='edit'>"
-                    +"</button></td><td>"
-                    +"<button id='button_delete_"+item.id+"' onclick='deletePlayer(" + item.id + "," + selectPageNum + ")'>"
+                    + "<button id='button_edit_" + item.id + "' onclick='editPlayer(" + item.id + "," + selectPageNum + ")'>"
+                    + "<img src='/img/edit.png' alt='edit' title='edit'>"
+                    + "</button></td><td>"
+                    + "<button id='button_delete_" + item.id + "' onclick='deletePlayer(" + item.id + "," + selectPageNum + ")'>"
                     + "<img src='/img/delete.png'  alt='delete' title='delete'>"
                     + "</button></td>"
                 ).appendTo('#player-table')
@@ -101,12 +101,39 @@ Pages:
     }
 
     function editPlayer(PlayerId, pageId) {
-        let buttonDelete ="#button_delete_"+PlayerId;
-        let imgDelete ="#button_delete_"+PlayerId+" img";
-        let imgEdit ="#button_edit_"+PlayerId+" img";
+        let buttonDelete = "#button_delete_" + PlayerId;
+        let buttonEdit = "#button_edit_" + PlayerId;
+        let imgDelete = "#button_delete_" + PlayerId + " img";
+        let imgEdit = "#button_edit_" + PlayerId + " img";
         $(buttonDelete).remove();
         $(imgDelete).remove();
-        $(imgEdit).attr('src',"/img/save.png");
+        $(imgEdit).attr('src', "/img/save.png");
+
+        let current_tr_element = $(buttonEdit).parent().parent();
+
+        let child_tr = current_tr_element.children();
+        let td_name = child_tr[1];
+        td_name.innerHTML = "<input id='input_name_" + PlayerId + "' value = '" + td_name.innerHTML + "'>";
+        let td_title = child_tr[2];
+        td_title.innerHTML = "<input id='input_title_" + PlayerId + "' value = '" + td_title.innerHTML + "'>";
+        let td_race = child_tr[3];
+        let race_id = "#select_race_"+PlayerId;
+        let current_race = td_race.innerHTML;
+        td_race.innerHTML = getDropDownRaceHtml(PlayerId);
+        $(race_id).val(current_race).change();
+
+        let td_profession = child_tr[4];
+        let profession_id = "#select_profession_"+PlayerId;
+        let current_profession = td_profession.innerHTML;
+        td_profession.innerHTML = getDropDownProfessionHtml(PlayerId);
+        $(profession_id).val(current_profession).change();
+
+        let td_banned = child_tr[7];
+        let banned_id = "#select_banned_"+PlayerId;
+        let current_banned = td_banned.innerHTML;
+        td_banned.innerHTML = getDropDownBannedHtml(PlayerId);
+        $(banned_id).val(current_banned).change();
+
 
         /*
         let url = '/rest/players/';
@@ -123,13 +150,46 @@ Pages:
 
     }
 
+    function getDropDownRaceHtml(PlayerId){
+        return "<select id='select_race_" + PlayerId + "'>"
+            + "<option value='HUMAN'>HUMAN</option>"
+            + "<option value='ELF'>ELF</option>"
+            + "<option value='GIANT'>GIANT</option>"
+            + "<option value='ORC'>ORC</option>"
+            + "<option value='TROLL'>TROLL</option>"
+            + "<option value='HOBBIT'>HOBBIT</option>"
+            + "</select>";
+    }
+    function getDropDownProfessionHtml(PlayerId){
+        return "<select id='select_profession_" + PlayerId + "'>"
+            + "<option value='WARRIOR'>WARRIOR</option>"
+            + "<option value='ROGUE'>ROGUE</option>"
+            + "<option value='SORCERER'>SORCERER</option>"
+            + "<option value='CLERIC'>CLERIC</option>"
+            + "<option value='PALADIN'>PALADIN</option>"
+            + "<option value='NAZGUL'>NAZGUL</option>"
+            + "<option value='WARLOCK'>WARLOCK</option>"
+            + "<option value='DRUID'>DRUID</option>"
+            + "</select>";
+    }
+
+
+
+    function getDropDownBannedHtml(PlayerId){
+        return "<select id='select_banned_" + PlayerId + "'>"
+            +"<option value='true'>true</option>"
+            +"<option value='false'>false</option>"
+            +"</select>";
+    }
+
+
     function deletePlayer(PlayerId, pageId) {
         let url = '/rest/players/';
         url = url.concat(PlayerId);
         $.ajax({
-                type: "delete",
-                url: url,
-                success: function () {
+            type: "delete",
+            url: url,
+            success: function () {
                     update_table(getCurrentPage());
                 }
             }
