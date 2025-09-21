@@ -105,9 +105,12 @@ Pages:
         let buttonEdit = "#button_edit_" + PlayerId;
         let imgDelete = "#button_delete_" + PlayerId + " img";
         let imgEdit = "#button_edit_" + PlayerId + " img";
+        let savePlayer = "savePlayer(" + PlayerId + "," + pageId + ")";
         $(buttonDelete).remove();
         $(imgDelete).remove();
         $(imgEdit).attr('src', "/img/save.png");
+        $(buttonEdit).attr('onclick', savePlayer);
+
 
         let current_tr_element = $(buttonEdit).parent().parent();
 
@@ -117,40 +120,26 @@ Pages:
         let td_title = child_tr[2];
         td_title.innerHTML = "<input id='input_title_" + PlayerId + "' value = '" + td_title.innerHTML + "'>";
         let td_race = child_tr[3];
-        let race_id = "#select_race_"+PlayerId;
+        let race_id = "#select_race_" + PlayerId;
         let current_race = td_race.innerHTML;
         td_race.innerHTML = getDropDownRaceHtml(PlayerId);
         $(race_id).val(current_race).change();
 
         let td_profession = child_tr[4];
-        let profession_id = "#select_profession_"+PlayerId;
+        let profession_id = "#select_profession_" + PlayerId;
         let current_profession = td_profession.innerHTML;
         td_profession.innerHTML = getDropDownProfessionHtml(PlayerId);
         $(profession_id).val(current_profession).change();
 
         let td_banned = child_tr[7];
-        let banned_id = "#select_banned_"+PlayerId;
+        let banned_id = "#select_banned_" + PlayerId;
         let current_banned = td_banned.innerHTML;
         td_banned.innerHTML = getDropDownBannedHtml(PlayerId);
         $(banned_id).val(current_banned).change();
 
-
-        /*
-        let url = '/rest/players/';
-        url = url.concat(PlayerId);
-        $.ajax({
-                type: "edit",
-                url: url,
-                success: function (response) {
-                    update_table(pageId);
-                }
-            }
-        )
-        */
-
     }
 
-    function getDropDownRaceHtml(PlayerId){
+    function getDropDownRaceHtml(PlayerId) {
         return "<select id='select_race_" + PlayerId + "'>"
             + "<option value='HUMAN'>HUMAN</option>"
             + "<option value='ELF'>ELF</option>"
@@ -160,7 +149,8 @@ Pages:
             + "<option value='HOBBIT'>HOBBIT</option>"
             + "</select>";
     }
-    function getDropDownProfessionHtml(PlayerId){
+
+    function getDropDownProfessionHtml(PlayerId) {
         return "<select id='select_profession_" + PlayerId + "'>"
             + "<option value='WARRIOR'>WARRIOR</option>"
             + "<option value='ROGUE'>ROGUE</option>"
@@ -173,13 +163,53 @@ Pages:
             + "</select>";
     }
 
-
-
-    function getDropDownBannedHtml(PlayerId){
+    function getDropDownBannedHtml(PlayerId) {
         return "<select id='select_banned_" + PlayerId + "'>"
-            +"<option value='true'>true</option>"
-            +"<option value='false'>false</option>"
-            +"</select>";
+            + "<option value='true'>true</option>"
+            + "<option value='false'>false</option>"
+            + "</select>";
+    }
+
+    function savePlayer(PlayerId, pageId) {
+        let name_id = "#input_name_" + PlayerId;
+        let name = $(name_id).val();
+
+        let title_id = "#input_title_" + PlayerId;
+        let title = $(title_id).val();
+
+        let race_id = "#select_race_" + PlayerId;
+        let race = $(race_id).val();
+
+        let profession_id = "#select_profession_" + PlayerId;
+        let profession = $(profession_id).val();
+
+        let banned_id = "#select_banned_" + PlayerId;
+        let banned = $(banned_id).val();
+
+        let player = {
+            name: name,
+            title: title,
+            race: race,
+            profession: profession,
+            banned: banned
+        };
+
+        let jsonString = JSON.stringify(player);
+
+        let url = '/rest/players/';
+        url = url.concat(PlayerId);
+        $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                contentType: 'application/json',
+                data: jsonString,
+                success: function () {
+                    update_table(getCurrentPage());
+                }
+            }
+        )
+
     }
 
 
@@ -187,9 +217,9 @@ Pages:
         let url = '/rest/players/';
         url = url.concat(PlayerId);
         $.ajax({
-            type: "delete",
-            url: url,
-            success: function () {
+                type: 'DELETE',
+                url: url,
+                success: function () {
                     update_table(getCurrentPage());
                 }
             }
