@@ -33,7 +33,43 @@ Count per page:
     </tbody>
 </table>
 Pages:
-<div id="buttons"></div>
+<div id='buttons'></div>
+<hr style="width: 100%; border: 1px solid black;"><b><h1>Create new Acccount:</h1></b>
+<div id='create'>
+    Name: <input id='input_name_create' value=''>
+    <br>Title: <input id='input_title_create' value=''>
+    <br>Race:
+    <select id='select_race_create'>"
+        <option value='HUMAN'>HUMAN</option>
+        <option value='ELF'>ELF</option>
+        <option value='GIANT'>GIANT</option>
+        <option value='ORC'>ORC</option>
+        <option value='TROLL'>TROLL</option>
+        <option value='HOBBIT'>HOBBIT</option>
+    </select>
+    <br>Profession:
+    <select id='select_profession_create'>
+        <option value='WARRIOR'>WARRIOR</option>
+        <option value='ROGUE'>ROGUE</option>
+        <option value='SORCERER'>SORCERER</option>
+        <option value='CLERIC'>CLERIC</option>
+        <option value='PALADIN'>PALADIN</option>
+        <option value='NAZGUL'>NAZGUL</option>
+        <option value='WARLOCK'>WARLOCK</option>
+        <option value='DRUID'>DRUID</option>
+    </select>
+    <br>Level: <input id='input_level_create' value=''>
+    <br>Birthday: <input type='date' id='input_birthday_create' value=''>
+    <br>Banned:
+    <select id='select_banned_create'>
+        <option value='true'>true</option>
+        <option value='false'>false</option>
+    </select>
+    <br><br>
+    <button onclick='createNewPlayer()'>Save</button>
+</div>
+
+
 <script>
     function update_table(pageNumber) {
         $("tr:has(td)").remove();
